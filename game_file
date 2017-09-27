@@ -1,0 +1,587 @@
+"""Written in Python, in 'Pycharm', Python developer"""
+import time
+import random
+# Lists
+# ActionSequence Lists
+dogattack = ["You manage to escape but are very hurt. You can't go on!",
+             "You manage to escape, just barely avoiding any wounds..."]
+dogtype = ["Wiener Dog", "Basset Hound", "Bull-Dog", "German Shepard",
+           "Husky", "Dalmatian", "Saint Bernard", "Pug"]
+
+escapeharsactions = ["\n1. Keep digging!!!", "2. Run away!"]
+escapeharsresults = ["Mrs. Hars grabs you by the collar and yells 'BAD DOG!, this is the last straw!'",
+                     "She lunges out, diving towards you but you narrowly dodge her and run off..."]
+
+roadresults = ['\nA squirrel runs out into the road in front of you!\nYou chase it!',
+               'a car speeds around the corner but swerves away from you...']
+squirrelresults = ['1', '2']
+
+policeactions = ["\n1. Yes(Run) 2. No(stay)"]
+
+policerun = ["\n1", "2", "3", "4"]
+
+parkactions = ["\n1. Examine", "2. Search"]
+
+plazaactions = ["\n1. Examine", "2. Keep walking", "3. General Store"]
+
+# Text Lists
+awake = ["The sun peaks through the blinds and hits your face", "You hear the mailman drop mail through the door",
+         "You hear a noise from outside", "You hear the sound of a car passing"]
+dogtalk = ["Woof!", "Woof! Woof!", "Woof.", "Woof woof woof!"]
+dogwalk = ["mozy", "walk", "stroll", "go", "prance", "move", "adventure", "charge", "skip", "walk", "walk", "run",
+           "meander"]
+examination = ["out of the ordinary", "strange", "peculiar", "odd", "particularly interesting", "catches your eye",
+               "intriguing", "to see", "special"]
+
+# Room Action Lists
+livingactions = ["\n----Available Actions----", "1. Go to the Bathroom", "2. Go to the Kitchen", "3. Go to the Bedroom",
+                 "4. Sniff (current room)"]
+
+bathactions = ["\n----Available Actions----", "1. Examine the room", "2. Go to the living (go back)",
+               "3. Investigate bowl"]
+
+bedroomactions = ["\n----Available Actions----", "1. Examine the room", "2. Go to the living room (go back)"]
+
+kitchenactions = ["\n----Available Actions----", "1. Examine the room", "2. Go to your bowls",
+                  "3. Go to the living room (go back)"]
+backyardactions = ["\n----Available Actions----", "1. Examine", "2. Swing Set", "3. Front Yard", "4. Rose Bush"]
+
+frontyardactions = ["\n----Available Actions----", "1. Examine", "2. Mrs. Har's House", "3. Cross Road", "4. Mr. Smith's"]
+
+intersectionactions = ["\n----Available Actions----", "1. Go left (Park)", "2. Go right (Plaza)"]
+
+parkactions = ["\n1. Examine", "2. Search"]
+
+plazaactions = ["\n1. Examine", "2. Keep walking", "3. General Store"]
+
+
+# Functions
+# StartGame
+def start_game():
+    print("_________________________________"
+          "\n     DOG'S GRAND ADVENTURE     "
+          "\n   A TEXT BASED ADVENTURE GAME"
+          "\n_________________________________")
+    time.sleep(0.8)
+    print("\n      By Samuel Trostle")
+    time.sleep(2.0)
+    start = input("    Press 'Enter' to begin: ")
+    if start == "":
+        set_name()
+    if start:
+        print('\n\n')
+        start_game()
+
+
+# InputName
+def set_name():
+    print("\nEnter your name: "),
+    set_name.name = input()
+    check_name()
+
+
+# Validate UserName
+def check_name():
+    print('Your name is', set_name.name, 'is that correct?')
+    print("Enter 'Yes' or 'No'")
+    nc = input()
+    if nc in ('Yes', 'yes', 'y', 'Y', 'YES', '1'):
+        print("...")
+        time.sleep(1)
+        print("...")
+        time.sleep(0.6)
+    elif nc == '':
+        set_name()
+    elif nc:
+        set_name()
+
+
+# WakeUp Interaction
+def wake_up():
+    print("You're asleep, happily dreaming, but in the back of your head you can hear a familiar voice...")
+    time.sleep(1.5)
+    print("You recognize the voice as your human friends. They call out to you")
+    time.sleep(2)
+    print("I'll be home later in time for your dinner okay " + set_name.name + "?")
+    time.sleep(3)
+    print("Your tail wags as you feel your human friend pet you before you drift back into sleep")
+    time.sleep(3)
+    print("...")
+    time.sleep(2)
+    print("...")
+    time.sleep(2)
+
+
+# Awake
+def woken_up():
+    print(random.choice(awake) + "...you wake up")
+    time.sleep(2)
+    print("It seems much later and things are quiet. You wonder if your human friend is home yet")
+    time.sleep(2)
+    print("\nYou call out for your human friend")
+    bark = input("You say: ")
+    print(random.choice(dogtalk))
+    time.sleep(2)
+    print("There is no answer.")
+    time.sleep(1.4)
+    print("\nGo look for your human friend.")
+    print("Choose one of the available actions below by entering the corresponding number")
+    time.sleep(1)
+    print(*livingactions, sep='\n')
+    living_room()
+
+
+# Game over
+def gameover():
+    print("Despite your best efforts you can't go on...")
+    print("Play again? Y/N")
+    answer = input("Enter: ")
+    if answer in ('Yes', 'yes', 'y', 'Y' '1'):
+        set_name()
+    if answer in ('No', 'no', 'n', '2'):
+        time.sleep(1)
+        print('Goodbye!')
+        quit()
+    elif answer:
+        time.sleep(1)
+        print('Goodbye!')
+        quit()
+
+
+# EscapeMrs.Hars
+def escape_hars():
+    print(*escapeharsactions, sep="\n")
+    answer = input("Enter: ")
+    if answer == '1':
+        print("You keep digging!"
+              "\nOh no!\nMrs. Hars grabs you by the collar and drags you towards her house...")
+        time.sleep(1)
+        gameover()
+    if answer == '2':
+        escaperesult = random.choice(escapeharsresults)
+        if escaperesult in "BAD DOG":
+            time.sleep(1)
+            gameover()
+        elif escaperesult:
+            frontyardactions.remove("2. Mrs. Har's House")
+            print(escapeharsresults[1])
+            print(frontyardactions)
+            front_yard()
+    elif answer:
+        print('Invalid selection, try again.')
+
+
+# game win
+def gamewin():
+    time.sleep(1)
+    print("\nThe human starts talking on their phone")
+    time.sleep(1)
+    print("\nThe human puts their phone away and says 'Don't worry' " + set_name.name + " your owners on the way!")
+    time.sleep(2)
+    time.sleep(1)
+    print("The human takes you to a store across the street. They give you ice-cream while you wait.")
+    time.sleep(1)
+    print("later on.. Your human shows up. 'I've been looking all over for you!'")
+    time.sleep(1.5)
+    print("Your human hugs you and you feel happy.")
+    time.sleep(2)
+    print("Game Over. Good Job!")
+    quit()
+
+
+# Police
+def police():
+    y = random.choice(policerun)
+    answer = input("Enter choice: ")
+    # run = y
+    if answer in "1":
+        print("You start sprinting away from the Officer")
+        if y in "1":
+            print("The officer begins to run faster towards you, yelling.\nYou are able to avoid him and escape...")
+            parkactions.remove("2. Search")
+            time.sleep(1)
+            print(*parkactions, sep='\n')
+            park()
+        if answer in ("2", "3", "4"):
+            print("The officer begins to run faster towards you, yelling.\nHe catches up to you...")
+            time.sleep(1)
+            gameover()
+    if answer in "2":
+        print("The officer begins walking over to you")
+        print("Looks like you're lost buddy.")
+        print("The officer looks at your collar, it says " + set_name.name + ".")
+        print(set_name.name + " huh? Looks like you're lost buddy. Let's see if we can find your owner.")
+        print("\nThe officer looks at your collar tags, reads the phone-number and starts to make a call")
+        time.sleep(1.5)
+        gamewin()
+
+
+# Park
+def park():
+    answer = input("Enter: ")
+    if answer == "1":
+        print("You look around the park. It's a big park and you're not sure where to start.\n"
+              "You see a young girl on a bench.")
+        parkactions.insert(2, "3. Approach the girl")
+        time.sleep(1)
+        print(*parkactions, sep='\n')
+        park()
+    if answer == "2":
+        print("You carefully stroll through the park...")
+        print("You hear someone shout towards you.")
+        print("You snap around...\n A police officer is jogging towards you")
+        print("Do you run away?")
+        time.sleep(1)
+        print(*policeactions, sep='\n')
+        police()
+    if answer == "3":
+        time.sleep(1)
+        print("You approach the girl")
+        time.sleep(1)
+        print("\nShe notices you. You're cautious but she gives you a soft smile.")
+        time.sleep(1)
+        print("You walk closer and she extends her hand and pets you behind the ear.\n"
+              "'Where your owner boy?'")
+        time.sleep(1)
+        print(random.choice(dogtalk))
+        time.sleep(1)
+        print("'Are you lost boy?' \nShe looks at your collar and pulls out her phone.")
+        time.sleep(1)
+        gamewin()
+    elif answer == '':
+        print('No number choice')
+        print(*parkactions, sep='\n')
+        park()
+    elif answer:
+        print('Choose an available action')
+        print(*parkactions, sep='\n')
+        park()
+
+
+# plaza
+def plaza():
+    answer = input("Enter choice: ")
+    if answer == '1':
+        print("Nothing " + random.choice(examination) + " to see here.")
+        time.sleep(1)
+        print(*plazaactions, sep='\n')
+    if answer == '2':
+        print("You decide to keep walking through the plaza")
+        print("You keep walking...")
+        print("Soon you have walked so far you're not sure where you're at anymore...")
+        time.sleep(1)
+        gameover()
+    if answer == '3':
+        time.sleep(1)
+        print("You see a general store.")
+        time.sleep(1)
+        print("You walked towards the store. Through the window you can see lots of delicious food...")
+        time.sleep(1)
+        print("You are feeling awfully famished from all this searching...")
+        time.sleep(1)
+        print("\nYou slip in through the doors and walk towards a shelf... ")
+        time.sleep(1)
+        print("\n'Hold it!'\nThe store manager yells from behind you. 'No strays in here buddy.'\n"
+              "The manager leaps forward and grabs you...")
+        time.sleep(1)
+        gameover()
+    elif answer == '':
+        print('No number choice')
+        print(*plazaactions, sep='\n')
+        plaza()
+    elif answer:
+        print('Choose an available action')
+        print(*plazaactions, sep='\n')
+        plaza()
+
+
+# Intersection
+def intersection():
+    answer = input("Enter Choice: ")
+    if answer == '1':
+        print("You " + random.choice(dogwalk) + " towards the park.")
+        print("You arrive at the park...")
+        time.sleep(1)
+        print(*parkactions, sep='\n')
+        park()
+    if answer == '2':
+        print("You " + random.choice(dogwalk) + " towards the plaza.")
+        print("You arrive at the plaza...")
+        time.sleep(1)
+        print(*plazaactions, sep='\n')
+        plaza()
+    elif answer == '':
+        print('No number choice')
+        print(*intersectionactions, sep='\n')
+        intersection()
+    elif answer:
+        print('Choose an available action')
+        print(*intersectionactions, sep='\n')
+        intersection()
+
+
+# RoadCross
+def roadcross():
+    crossroad = input("Enter: ")
+    roadresult = random.choice(roadresults)
+    squirrelresult = random.choice(squirrelresults)
+    if crossroad in ('yes', 'Yes', 'YES', 'YES', '1', 'YES!', 'Y', 'y'):
+        print('You bolt across the road... ' + roadresult)
+        if roadresult in 'squirrel':
+            # print(' you chase the squirrel in the road. A car speeds around the corner '
+            #      'and screeches as it tries to avoid you.')
+            if squirrelresult == '1':
+                time.sleep(1)
+                print("it doesn't break fast enough and injures you...")
+            gameover()
+            if squirrelresult == '2':
+                time.sleep(1)
+                print('The car stops just in time and you run across to the other side of the road')
+                intersection()
+        elif roadresult:
+            # print(roadresults[1])
+            print('You finish crossing the road')
+            time.sleep(1)
+            print(*intersectionactions, sep='\n')
+            intersection()
+    if crossroad in ('no', 'No', 'NO', 'n', '2', 'NO!', 'N'):
+        time.sleep(1)
+        print(*frontyardactions, sep='\n')
+        front_yard()
+    elif crossroad:
+        print('Invalid selection, try again.')
+
+
+# FrontYard
+def front_yard():
+    answer = input("Enter a choice: ")
+    if answer == '1':
+        print("You see Mr. Smith's home, he's always been a kind old man and usually gives you a treat..."
+              "\nYou see Mrs. Hars's home, you like to bury your bones in her yard...")
+        print("\nNothing else " + random.choice(examination)+" around the area")
+        time.sleep(1)
+        print(*frontyardactions, sep="\n")
+        front_yard()
+    if answer == '2':
+        print("You " + random.choice(dogwalk) + " over to Mrs. Hars's yard")
+        print("You start to go towards the last place you buried a bone and dig...")
+        print("!")
+        print("Mrs. Hars's sees you and rushes out the door towards you, yelling")
+        escape_hars()
+    if answer == '3':
+        print("You look at the road. It's usually pretty busy but right now there aren't a lot of cars driving on it")
+        print("Across the road are two paths, you recognize them. One leads towards the plaza and the other"
+              "leads to your favorite park...")
+        print("Are you sure you want to cross the road? Y/N")
+        time.sleep(1)
+        roadcross()
+    if answer == '4':
+        print("You " + random.choice(dogwalk) + " to Mr. Smith's")
+        print("As you " + random.choice(dogwalk) + " onto Mr. Smith's yard you look around")
+        print("You hear a noise...")
+        print("\nA cat jumps out from his hedge!")
+        print("\nIt spits and hisses at you\nYou run away...")
+        frontyardactions.remove("4. Mr. Smith's")
+        time.sleep(1)
+        print(*frontyardactions, sep='\n')
+        front_yard()
+    elif answer == '':
+        print('No number choice')
+        print(*frontyardactions, sep='\n')
+        front_yard()
+    elif answer:
+        print('Choose an available action')
+        print(*frontyardactions, sep='\n')
+        front_yard()
+
+
+# BackYard
+def back_yard():
+    answer = input("Enter a choice: ")
+    if answer == '1':
+        print("You look around the yard. You smell your human but it's too faint to specify the source."
+              "\nYou notice a small hole in the fence...")
+        backyardactions.insert(5, "5. Slip through the hole in the fence")
+        time.sleep(1)
+        print(*backyardactions, sep='\n')
+        back_yard()
+    if answer == '2':
+        print("You " + random.choice(dogwalk) + " to the swing set.")
+        print('Nothing ' + random.choice(examination) + " here!")
+        backyardactions.remove("2. Swing Set")
+        time.sleep(1)
+        print(*backyardactions, sep='\n')
+        back_yard()
+    if answer == '3':
+        print('You ' + random.choice(dogwalk) + " out to the front yard...")
+        time.sleep(1)
+        print(*frontyardactions, sep='\n')
+        front_yard()
+    if answer == '4':
+        print('You ' + random.choice(dogwalk) + " to the rosebush...")
+        print("They smell so good.")
+        print("Really, really good!")
+        print("Oh no! You stepped too far in!\n Your paw gets a big thorn caught in it")
+        print("You're very hurt!")
+        gameover()
+    if answer == '5':
+        print("You " + random.choice(dogwalk) + " towards the hole in the fence...")
+        print("Carefully you slip through and look around...")
+        print("Oh no! A vicious " + random.choice(dogtype) + " sees you and begins to charge for an attack!")
+        print("The dog leaps at you with a bite!")
+        result = random.choice(dogattack)
+        time.sleep(1)
+        print(result)
+        if result == dogattack[0]:
+                gameover()
+        if result == dogattack[1]:
+                time.sleep(1)
+                print(*backyardactions)
+                back_yard()
+    elif answer == '':
+        print('No number choice')
+        print(*backyardactions, sep='\n')
+        back_yard()
+    elif answer:
+        print('Choose an available action')
+        print(*backyardactions, sep='\n')
+        back_yard()
+
+
+# Kitchen
+def kitchen_room():
+    answer = input("Enter a choice: ")
+    if answer == '1':
+        print('You see your doggy door that leads to the backyard.')
+        kitchenactions.insert(4, "4. Go out the doggy door (backyard)")
+        time.sleep(1)
+        print(*kitchenactions, sep='\n')
+        kitchen_room()
+    if answer == '2':
+        print("You see your bowls, they say " + set_name.name + " on them." +
+              "\nAll this searching has made you quite famished... \n You eat from your bowl.")
+        kitchenactions.remove("2. Go to your bowls")
+        time.sleep(1)
+        print(*kitchenactions, sep='\n')
+        kitchen_room()
+    if answer == '3':
+        print('You ' + random.choice(dogwalk) + " back to the living room")
+        time.sleep(1)
+        print(*livingactions, sep='\n')
+        living_room()
+    if answer == '4':
+        print('You ' + random.choice(dogwalk) + " to the backyard")
+        time.sleep(1)
+        print(*backyardactions, sep='\n')
+        back_yard()
+    elif answer == '':
+        print('No number choice')
+        print(*kitchenactions, sep='\n')
+        kitchen_room()
+    elif answer:
+        print('Choose an available action')
+        print(*kitchenactions, sep='\n')
+        kitchen_room()
+
+
+# Bedroom
+def bed_room():
+    answer = input("Enter a choice: ")
+    if answer == '1':
+        print("This is always your favorite room. You look at the bedside table and see your favorite picture "
+              "of you and the human.")
+        print("'I like human' you think to yourself. Then carry on...")
+        bedroomactions.remove("1. Examine the room")
+        time.sleep(1)
+        print(*bedroomactions, sep='\n')
+        bed_room()
+    if answer == '2':
+        print('You ' + random.choice(dogwalk) + " back towards the living room...")
+        time.sleep(1)
+        print(*livingactions, sep='\n')
+        living_room()
+    elif answer == '':
+        print('No number choice')
+        print(*bedroomactions, sep='\n')
+        bed_room()
+    elif answer:
+        print('Choose an available action')
+        print(*bedroomactions, sep='\n')
+        bed_room()
+
+
+# Bathroom
+def bath_room():
+    answer = input("Enter a choice: ")
+    if answer == '1':
+        print("Nothing " + random.choice(examination) + " about the room")
+        time.sleep(1)
+        print(*bathactions, sep='\n')
+        bath_room()
+    if answer == '2':
+        print("You " + random.choice(dogwalk) + ' into the living room')
+        time.sleep(1)
+        print(*livingactions, sep='\n')
+        living_room()
+    if answer == '3':
+        print("You notice the toilet bowl. Your human friend never lets you drink from there")
+        time.sleep(1.5)
+        print("Surely a quick inspection would not hurt...")
+        time.sleep(2)
+        print("You slurp up some toilet water and feel refreshed.")
+        bathactions.remove("3. Investigate bowl")
+        time.sleep(1)
+        print(*bathactions, sep='\n')
+        bath_room()
+    elif answer == '':
+        print('No number choice')
+        print(*bathactions, sep='\n')
+        bath_room()
+    elif answer:
+        print('Choose an available action')
+        print(*bathactions, sep='\n')
+        bath_room()
+
+
+# LivingRoom/StartingRoom
+def living_room():
+    answer = input("Enter a choice: ")
+    if answer == '1':
+        time.sleep(1)
+        print("You " + random.choice(dogwalk) + " into the bathroom")
+        time.sleep(1)
+        print(*bathactions, sep='\n')
+        bath_room()
+    if answer == '2':
+        print("You " + random.choice(dogwalk) + " into the kitchen")
+        time.sleep(1)
+        print(*kitchenactions, sep='\n')
+        kitchen_room()
+    if answer == '3':
+        print("You " + random.choice(dogwalk) + " into the bedroom")
+        time.sleep(1)
+        print(*bedroomactions, sep='\n')
+        bed_room()
+    if answer == '4':
+        print("You examine the room.")
+        print("It smells like your human was last in the bedroom or kitchen...")
+        time.sleep(1)
+        print("...or the bathroom...or the living room..")
+        time.sleep(1)
+        print(*livingactions, sep='\n')
+        living_room()
+    elif answer == '':
+        print("Empty Response, try again")
+        time.sleep(1)
+        print(*livingactions, sep='\n')
+        living_room()
+    elif answer:
+        print("Choose an available number option")
+        time.sleep(1)
+        print(*livingactions, sep='\n')
+        living_room()
+
+
+start_game()
+wake_up()
+woken_up()
